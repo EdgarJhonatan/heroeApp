@@ -3,9 +3,16 @@ import { Heroe } from '../interfaces/heroes.interface';
 
 @Pipe({
   name: 'imagen',
+  //pure: false, es para disparar cad vez que suceda una función en el proyecto, no es recomendable porque consume muchos recursos
 })
 export class ImagenPipe implements PipeTransform {
   transform(heroe: Heroe): string {
-    return `assets/heroes/${heroe.id}.jpg`;
+    if (!heroe.id && !heroe.alt_img) {
+      return `assets/no-image.png`;
+    } else if (heroe.alt_img) {
+      return heroe.alt_img;
+    } else {
+      return `assets/heroes/${heroe.id}.jpg`;
+    }
   }
 }
